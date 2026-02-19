@@ -2,8 +2,6 @@ import SwiftUI
 
 /// Экран "О приложении"
 struct AboutView: View {
-    @Environment(\.dismiss) private var dismiss
-
     var body: some View {
         VStack(spacing: 24) {
             Spacer()
@@ -36,21 +34,6 @@ struct AboutView: View {
                 .padding(.horizontal, 32)
 
             Spacer()
-
-            // Кнопка "Назад"
-            Button(action: {
-                dismiss()
-            }) {
-                Text("Назад")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-            }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 32)
         }
         .navigationTitle("О приложении")
         .navigationBarTitleDisplayMode(.inline)
