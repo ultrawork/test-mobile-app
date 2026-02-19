@@ -17,3 +17,4 @@ xcodebuild -project TestMobileApp.xcodeproj -scheme TestMobileApp -sdk iphonesim
 
 - **Contacts List**: Displays 5 sample contacts with name, phone number, and avatar initials
 - **SwiftUI**: Built with modern SwiftUI and NavigationStack
+
