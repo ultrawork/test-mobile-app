@@ -2,13 +2,15 @@ import SwiftUI
 
 /// Главный экран — список контактов с поиском
 struct ContentView: View {
+    @State private var contacts: [Contact] = Contact.samples
     @State private var searchText = ""
+    @State private var showingAddContact = false
 
     var filteredContacts: [Contact] {
         if searchText.isEmpty {
-            return Contact.samples
+            return contacts
         }
-        return Contact.samples.filter { contact in
+        return contacts.filter { contact in
             contact.fullName.localizedCaseInsensitiveContains(searchText)
                 || contact.phone.contains(searchText)
         }
@@ -16,15 +18,22 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            List(filteredContacts) { contact in
-                NavigationLink(value: contact) {
-                    ContactRow(contact: contact)
+            List {
+                ForEach(filteredContacts) { contact in
+                    NavigationLink(value: contact) {
+                        ContactRow(contact: contact)
+                    }
                 }
+                .onDelete(perform: deleteContacts)
             }
             .navigationTitle("Contacts")
             .searchable(text: $searchText, prompt: "Search contacts")
             .navigationDestination(for: Contact.self) { contact in
-                ContactDetailView(contact: contact)
+                ContactDetailView(contact: contact) { updatedContact in
+                    if let index = contacts.firstIndex(where: { $0.id == updatedContact.id }) {
+                        contacts[index] = updatedContact
+                    }
+                }
             }
             .overlay {
                 if filteredContacts.isEmpty {
@@ -39,10 +48,32 @@ struct ContentView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gearshape")
+                    HStack(spacing: 16) {
+                        Button(action: {
+                            showingAddContact = true
+                        }) {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityLabel("Add Contact")
+                        NavigationLink(destination: SettingsView()) {
+                            Image(systemName: "gearshape")
+                        }
                     }
                 }
+            }
+            .sheet(isPresented: $showingAddContact) {
+                AddContactView { newContact in
+                    contacts.append(newContact)
+                }
+            }
+        }
+    }
+
+    private func deleteContacts(at offsets: IndexSet) {
+        let contactsToDelete = offsets.map { filteredContacts[$0] }
+        for contact in contactsToDelete {
+            if let index = contacts.firstIndex(where: { $0.id == contact.id }) {
+                contacts.remove(at: index)
             }
         }
     }
