@@ -2,11 +2,19 @@ import Foundation
 
 /// Модель контакта
 struct Contact: Identifiable, Hashable {
-    let id = UUID()
-    let firstName: String
-    let lastName: String
-    let phone: String
-    let email: String
+    let id: UUID
+    var firstName: String
+    var lastName: String
+    var phone: String
+    var email: String
+
+    init(id: UUID = UUID(), firstName: String, lastName: String, phone: String, email: String) {
+        self.id = id
+        self.firstName = firstName
+        self.lastName = lastName
+        self.phone = phone
+        self.email = email
+    }
 
     var fullName: String {
         "\(firstName) \(lastName)"

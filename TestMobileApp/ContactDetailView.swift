@@ -3,6 +3,7 @@ import SwiftUI
 /// Экран деталей контакта
 struct ContactDetailView: View {
     let contact: Contact
+    var onUpdate: ((Contact) -> Void)?
 
     var body: some View {
         VStack(spacing: 24) {
@@ -36,6 +37,16 @@ struct ContactDetailView: View {
         }
         .navigationTitle("Contact")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: EditContactView(contact: contact) { updatedContact in
+                    onUpdate?(updatedContact)
+                }) {
+                    Text("Edit")
+                }
+                .accessibilityIdentifier("editButton")
+            }
+        }
     }
 }
 
