@@ -31,6 +31,13 @@ struct ContentView: View {
                     ContentUnavailableView.search(text: searchText)
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: SettingsView()) {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
         }
     }
 }
