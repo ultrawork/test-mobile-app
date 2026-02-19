@@ -35,6 +35,7 @@ struct ContentView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     NavigationLink(destination: AboutView()) {
                         Image(systemName: "info.circle")
+                            .accessibilityLabel("About")
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
