@@ -33,8 +33,13 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gearshape")
+                    HStack(spacing: 16) {
+                        NavigationLink(destination: AboutView()) {
+                            Image(systemName: "info.circle")
+                        }
+                        NavigationLink(destination: SettingsView()) {
+                            Image(systemName: "gearshape")
+                        }
                     }
                 }
             }
